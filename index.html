@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Music App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 id="page-title">Find music that contains... </span></h1>
+      <label for ="find">Find me!</label>
+      <input name ="find" id="findMe"type="text"></input>
+    </div>
+  </header>
+  <main>
+    <div class="container" id="music"></div>
+  </main>
+  
+  <audio class="player" controls></audio>
+
+  <ul class="tracks"></ul>
+
+  <ul class="play-list"></ul>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
