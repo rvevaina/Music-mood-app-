@@ -3,35 +3,77 @@ musicApp = {};
 musicApp.apikey = "1d92a926bf8e49efbd3302d84610e3b85e41365b";
 
 var find = $("#findMe");
+var search = $(find).val();
+var mood = $("#mood").val();
+var genre = $("#genre").val();
+var activity = $("#activity").val();
 
 musicApp.init = function(){
-  $(find).on("keyup", function(e){
-    if(e.keyCode === 13){
-    var search = $(find).val();
-    console.log("You have selected " + search);
-       musicApp.getTracks(search);
-       // musicApp.playTrack();
-    }
+
+	// $('.container input').on('change',musicApp.getTracks);
+  
+var moodSelect = $('#mood').on("change", function(){
+    var mood = $(this).val();
+    var mood_name = $(this).find(':selected').text();
+    console.log("You have selected " + mood);
+    musicApp.getTracks();
 });
+
+var genreSelect = $('#genre').on("change", function(){
+    var genre = $(this).val();
+    var genre_name = $(this).find(':selected').text();
+    console.log("You have selected " + genre);
+    musicApp.getTracks();
+});
+
+var activitySelect = $('#activity').on("change", function(){
+    var activity = $(this).val();
+    var activity_name = $(this).find(':selected').text();
+    console.log("You have selected " + activity);
+    musicApp.getTracks();
+});
+
+  // $(find).on("keyup", function(e){
+  //   if(e.keyCode === 13){
+  //   var search = $(find).val();
+  //   console.log("You have selected " + search);
+  //      musicApp.getTracks();
+  //      // musicApp.playTrack();
+  //   }
+  // });
 };
 
 // url: 'http://8tracks.com/mix_sets/tags:west_coast+g-funk:recent.jsonp?include=mixes',
 
 //get track listing
-musicApp.getTracks = function(search){
-  console.log(search)
+musicApp.getTracks = function(){
+
+  var activity = $("#activity").val();
+  var mood = $("#mood").val();
+  var genre = $("#genre").val();
+
+  var searchTags = [];
+  if(activity) { searchTags.push(activity); }
+  if(mood) { searchTags.push(mood); }
+  if(genre) { searchTags.push(genre); }
+  var searchTagsString = searchTags.join("+");
+
+  console.log(searchTagsString);
   $.ajax({
-    url: 'http://8tracks.com/mix_sets/tags:'+ search + '.jsonp?include=mixes',
-    type: 'GET',
+    url: 'http://8tracks.com/mix_sets/tags:' + searchTagsString + '.jsonp?include=mixes',
+    type: 'GET', 
     data: {
       api_key: musicApp.apikey,
       format: 'jsonp',
       api_version: 3,
     },
     dataType: 'jsonp',
+    complete : function(err){
+    	console.log("There was an error",err);
+    },
     success: function(result){
       console.log(result);
-      // $("#artwork").empty();
+      $("ul").empty();
       musicApp.displayTracks(result.mix_set.mixes);
       musicApp.Showtracklist();
       // if(!result.count){
@@ -67,8 +109,7 @@ musicApp.getTracks = function(search){
     dataType: 'jsonp',
     success: function(results){
       console.log(results);
-      // $("#artwork").empty();
-      musicApp.showTrack(results.set.track);
+        musicApp.showTrack(results.set.track);
       // if(!result.count){
       //   $("#artwork").html('<p>Image not found. Find waldo instead.</p><img class="error" src="waldo-4.jpg"/>');
       // }
@@ -81,31 +122,30 @@ musicApp.showTrack = function(piece){
   // $.each(data, function(i, piece){
       var player = $('<audio controls>').attr('src', piece.track_file_stream_url);
       // var track = $("<li>");
-      var name = $('<h2>').text(piece.name);
+      var name = $('<h3>').text(piece.name);
       var musicTrack = $('<li>').attr('data-src',piece.track_file_stream_url).addClass('track-players').append(name);
       $('.tracks').append(musicTrack);
   // });
  };
 
  musicApp.Showtracklist = function() {
-
       var trackID = $('ul.play-list li').each(function() {
        musicApp.playTrack($(this).data('track'));
       });
-
   };
 
 $(function(){
     musicApp.init();
     
-    $('ul.play-list').on('click','li',function(){
-      console.log("CLICKED");
-      var trackID = $(this).data('track');
-      console.log(trackID + "trackid");
-      musicApp.playTrack(trackID);
-    });
+    // $('ul.play-list').on('click','li',function(){
+    //   console.log("CLICKED");
+    //   var trackID = $(this).data('track');
+    //   console.log(trackID + "trackid");
+    //   musicApp.playTrack(trackID);
+    // });
 
     $('ul.tracks').on('click', 'li',function() {
+      $(this).css("color", "white")
       var src = $(this).data('src');
       var audio = $('audio')[0];
       audio.src = src;

@@ -8,22 +8,59 @@
 <body>
   <header>
     <div class="container">
-      <h1 id="page-title">Find music that contains... </span></h1>
-      <label for ="find">Find me!</label>
-      <input name ="find" id="findMe"type="text"></input>
+      <h1 id="page-title">Music Finder </span></h1>
+      <!-- <label for ="find">Find me!</label>
+      <input name ="find" id="findMe"type="text"></input> -->
+       <label for="mood">What is your mood?</label>
+      
+      <select name="mood" id="mood">
+        <option value=""></option>
+        <option value="Chill">Chill</option>
+        <option value="Angry">Angry</option>
+        <option value="Happy">Happy</option>
+        <option value="Drunk">Drunk</option>
+        <option value="Energetic">Energetic</option>
+        <option value="Lazy">Lazy</option>
+        <option value="Dark">Dark</option>
+      </select>
+
+      <label for="genre">Favourite genre?</label>
+      <select name="genre" id="genre">
+        <option value=""></option>
+        <option value="rock">Rock</option>
+        <option value="hip_hop">Hip-hop</option>
+        <option value="funk">Funk</option>
+        <option value="rap">Rap</option>
+        <option value="reggae">Reggae</option>
+        <option value="house">House</option>
+        <option value="jazz">Jazz</option>
+      </select>
+
+      <label for="activity">What are you doing?</label>
+      <select name="activity" id="activity">
+        <option value=""></option>
+        <option value="studying">studying</option>
+        <option value="partying">partying</option>
+        <option value="driving">driving</option>
+        <option value="dancing">dancing</option>
+        <option value="sex">getting frisky</option>
+        <option value="meditation">meditation</option>
+        <option value="drinking"> apartment drinking</option>
+      </select>
     </div>
   </header>
   <main>
-    <div class="container" id="music"></div>
-  </main>
+    <div class="container" id="music">
   
-  <audio class="player" controls></audio>
+      <audio class="player" controls></audio>
 
-  <ul class="tracks"></ul>
+      <ul class="tracks"></ul>
 
-  <ul class="play-list"></ul>
+      <ul class="play-list"></ul>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    </div>
+  </main>
+  <script src="jquery-1.11.1.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
