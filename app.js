@@ -11,27 +11,43 @@ var activity = $("#activity").val();
 musicApp.init = function(){
 
 	// $('.container input').on('change',musicApp.getTracks);
+
+  var noName = function(){
+      setTimeout(function(){
+        if($('ul.tracks li').length == 0){
+          console.log("too specific")
+          $('main').append('<div id="tooSpecific"><h2>Too Specific, Try Again</h2></div>');
+        }
+      },2000);
+  };
+
   
-var moodSelect = $('#mood').on("change", function(){
-    var mood = $(this).val();
-    var mood_name = $(this).find(':selected').text();
-    console.log("You have selected " + mood);
-    musicApp.getTracks();
-});
+  var moodSelect = $('#mood').on("change", function(){
+      var mood = $(this).val();
+      var mood_name = $(this).find(':selected').text();
+      console.log("You have selected " + mood);
+      musicApp.getTracks();
+      noName();
+  });
 
-var genreSelect = $('#genre').on("change", function(){
-    var genre = $(this).val();
-    var genre_name = $(this).find(':selected').text();
-    console.log("You have selected " + genre);
-    musicApp.getTracks();
-});
+  var genreSelect = $('#genre').on("change", function(){
+      var genre = $(this).val();
+      var genre_name = $(this).find(':selected').text();
+      console.log("You have selected " + genre);
+      musicApp.getTracks();
+      noName();
+  });
 
-var activitySelect = $('#activity').on("change", function(){
-    var activity = $(this).val();
-    var activity_name = $(this).find(':selected').text();
-    console.log("You have selected " + activity);
-    musicApp.getTracks();
-});
+  var activitySelect = $('#activity').on("change", function(){
+      var activity = $(this).val();
+      var activity_name = $(this).find(':selected').text();
+      console.log("You have selected " + activity);
+      musicApp.getTracks();
+      noName();
+  });
+
+    
+
 
   // $(find).on("keyup", function(e){
   //   if(e.keyCode === 13){
@@ -41,7 +57,10 @@ var activitySelect = $('#activity').on("change", function(){
   //      // musicApp.playTrack();
   //   }
   // });
+
 };
+
+
 
 // url: 'http://8tracks.com/mix_sets/tags:west_coast+g-funk:recent.jsonp?include=mixes',
 
@@ -68,7 +87,7 @@ musicApp.getTracks = function(){
       api_version: 3,
     },
     dataType: 'jsonp',
-    complete : function(err){
+    error : function(err){
     	console.log("There was an error",err);
     },
     success: function(result){
@@ -97,6 +116,7 @@ musicApp.getTracks = function(){
  //get track and play it
  musicApp.playTrack = function(trackID) {
   console.log("Going to get the track", trackID);
+
   $.ajax({
     url: 'http://8tracks.com/sets/439138418/play.jsonp?',
     type: 'GET',
@@ -107,8 +127,11 @@ musicApp.getTracks = function(){
       mix_id: trackID,
     },
     dataType: 'jsonp',
+    error : function(err){
+      console.log("There was an error",err);
+    },
     success: function(results){
-      console.log(results);
+      console.log(results, "results");
         musicApp.showTrack(results.set.track);
       // if(!result.count){
       //   $("#artwork").html('<p>Image not found. Find waldo instead.</p><img class="error" src="waldo-4.jpg"/>');
@@ -116,6 +139,7 @@ musicApp.getTracks = function(){
     }
   });
 }
+  
 
 musicApp.showTrack = function(piece){
 
@@ -125,6 +149,8 @@ musicApp.showTrack = function(piece){
       var name = $('<h3>').text(piece.name);
       var musicTrack = $('<li>').attr('data-src',piece.track_file_stream_url).addClass('track-players').append(name);
       $('.tracks').append(musicTrack);
+      
+      // musicApp.noTracks();
   // });
  };
 
