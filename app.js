@@ -16,7 +16,7 @@ musicApp.init = function(){
       setTimeout(function(){
         if($('ul.tracks li').length == 0){
           console.log("too specific")
-          $('main').append('<div id="tooSpecific"><h2>Too Specific, Try Again</h2></div>');
+          $('#tooSpecific').append('<h2>Too Specific, Try Again</h2>');
         }
       },2000);
   };
@@ -46,8 +46,6 @@ musicApp.init = function(){
       noName();
   });
 
-    
-
 
   // $(find).on("keyup", function(e){
   //   if(e.keyCode === 13){
@@ -59,8 +57,6 @@ musicApp.init = function(){
   // });
 
 };
-
-
 
 // url: 'http://8tracks.com/mix_sets/tags:west_coast+g-funk:recent.jsonp?include=mixes',
 
@@ -79,7 +75,7 @@ musicApp.getTracks = function(){
 
   console.log(searchTagsString);
   $.ajax({
-    url: 'http://8tracks.com/mix_sets/tags:' + searchTagsString + '.jsonp?include=mixes',
+    url: 'http://8tracks.com/mix_sets/tags:' + searchTagsString + '.jsonp?include=mixes+pagination&page=2&per_page=25',
     type: 'GET', 
     data: {
       api_key: musicApp.apikey,
@@ -93,6 +89,7 @@ musicApp.getTracks = function(){
     success: function(result){
       console.log(result);
       $("ul").empty();
+      $("#tooSpecific").empty();
       musicApp.displayTracks(result.mix_set.mixes);
       musicApp.Showtracklist();
       // if(!result.count){
@@ -118,7 +115,7 @@ musicApp.getTracks = function(){
   console.log("Going to get the track", trackID);
 
   $.ajax({
-    url: 'http://8tracks.com/sets/439138418/play.jsonp?',
+    url: 'http://8tracks.com/sets/439138418/next.jsonp?',
     type: 'GET',
     data: {
       api_key: musicApp.apikey,
