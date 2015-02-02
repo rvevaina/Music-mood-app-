@@ -175,5 +175,9 @@ $(function(){
       audio.play();
     });
 
+      var src = $(this).data('src');
+      var audio = $('audio')[0];
+      audio.src = src;
+      audio.play();
 
 });
